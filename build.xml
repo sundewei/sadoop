@@ -1,0 +1,131 @@
+<project name="Saphoop" default="distClient" basedir=".">
+    <description>
+        The SAP Hadoop examples
+    </description>
+    <!-- set global properties for this build -->
+    <property name="manifest" location="META-INF"/>
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+    <property name="lib" location="lib"/>
+    <property name="test-dir" location="src"/>
+
+    <property name="hadoop_home" location="../hadoop"/>
+    <property name="lucene_home" location="../lucene"/>
+    <property name="hbase_home" location="../hbase"/>
+    <property name="junit_home" location="../junit"/>
+
+    <property name="verbose" value="false"/>
+
+    <!-- Defining 3 pathes -->
+    <path id="classpath.base">
+        <fileset dir="${lib}" includes="*.jar"/>
+    </path>
+    <!-- Defining 3 pathes -->
+
+    <target name="compile.test">
+        <javac srcdir="${test-dir}" verbose="${verbose}" includes="**/*Test.java">
+            <classpath refid="classpath.base"/>
+        </javac>
+    </target>
+
+    <target name="clean-compile-test">
+        <delete verbose="${verbose}">
+            <fileset dir="${build}" includes="**/*Test.class"/>
+        </delete>
+    </target>
+
+    <target name="test" depends="compile.test">
+        <junit>
+            <classpath refid="classpath-test"/>
+            <formatter type="brief" usefile="false"/>
+            <test name="com.sap.etl.CsvReadStepTest"/>
+        </junit>
+    </target>
+
+    <target name="testAll" depends="test"/>
+
+    <target name="init">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${build}"/>
+    </target>
+
+    <target name="compileClient" depends="clean,init" description="compile the source ">
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac srcdir="${src}" destdir="${build}" fork="true">
+            <classpath refid="classpath.base"/>
+        </javac>
+
+        <copy todir="${build}">
+            <fileset dir="${src}">
+                <include name="**/*.xml"/>
+            </fileset>
+            <fileset dir="${src}">
+                <include name="**/public.key"/>
+            </fileset>
+        </copy>
+
+    </target>
+    
+    <target name="compileServer" depends="clean,init" description="compile the source ">
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac srcdir="${src}" destdir="${build}" fork="true">
+            <classpath refid="classpath.base"/>
+        </javac>
+
+        <copy todir="${build}">
+            <fileset dir="${src}">
+                <include name="**/*.xml"/>
+            </fileset>
+            <fileset dir="${src}">
+                <include name="**/*.key"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="distClient" depends="compileClient" description="generate the distribution">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}"/>
+        <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+        <!--
+        <copy todir="${dist}/lib">
+             <fileset file="${lucene_home}/lucene-core-3.0.3.jar"/>
+        </copy>
+        -->
+        <jar jarfile="${dist}/sap_hadoop.jar" basedir="${build}"/>
+        <jar jarfile="${lib}/sap_hadoop.jar" basedir="${build}"/>
+        <!--<jar jarfile="${dist}/index-complete.jar" basedir="${dist}" manifest="${manifest}/MANIFEST.MF"/>-->
+
+    </target>
+    
+    <target name="distServer" depends="compileServer" description="generate the distribution">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}"/>
+        <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+        <!--
+        <copy todir="${dist}/lib">
+             <fileset file="${lucene_home}/lucene-core-3.0.3.jar"/>
+        </copy>
+        -->
+        <jar jarfile="${dist}/sap_hadoop.jar" basedir="${build}"/>
+        <jar jarfile="${lib}/sap_hadoop.jar" basedir="${build}"/>
+        <!--<jar jarfile="${dist}/index-complete.jar" basedir="${dist}" manifest="${manifest}/MANIFEST.MF"/>-->
+
+    </target>
+
+    <target name="clean" depends="clean-compile-test" description="clean up">
+        <!-- Delete the ${build} and ${dist} directory trees -->
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="run1">
+        <java classname="com.sap.hdfs.io.FileSystemImpl" fork="true" failonerror="true" maxmemory="128m">
+            <arg value="-h"/>
+            <classpath refid="classpath.base"/>
+        </java>
+    </target>
+</project>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+    <property>
+        <name>com.sap.hadoop.etl.PoolContext.thread_count</name>
+        <value>10</value>
+        <description>
+            The default thread pool size used by com.sap.hadoop.etl.PoolContext
+        </description>
+    </property>
+</configuration>

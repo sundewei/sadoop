@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+    <property>
+        <name>hdfs.ftp.server</name>
+        <value>dewei0</value>
+        <description>The FTP server</description>
+    </property>
+
+    <property>
+        <name>hdfs.ftp.port</name>
+        <value>2222</value>
+        <description>The FTP server</description>
+    </property>
+
+    <!--
+     <property>
+         <name>hdfs.ftp.server.user</name>
+         <value>ccc</value>
+         <description>The hdfs-ftp user</description>
+     </property>
+
+     <property>
+         <name>hdfs.ftp.server.password</name>
+         <value>password</value>
+         <description>The hdfs-ftp user's password</description>
+     </property>
+     -->
+    <property>
+        <name>hdfs.ftp.temp.directory</name>
+        <value>/user/ftp_inbox/</value>
+        <description>The temporary directory for storing the uploaded file</description>
+    </property>
+
+</configuration>
