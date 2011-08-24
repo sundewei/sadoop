@@ -1,0 +1,163 @@
+create table REPOTEXT (
+	PROGNAME varchar(200),
+	R3STATE  char(1),
+	LANGUAGE char(1),
+	UNAM varchar(100),        
+	UDAT date,
+	UTIME date,   
+	DATALG double
+)
+
+
+create table I827779.SEARCH_IP ("IP" DECIMAL (20) not null);
+
+insert into I827779.SEARCH_IP
+SELECT START_IP_NUM + 10000
+FROM   I827779.CITY_IP_BLOCKS;  
+
+
+select distinct ftable.ID, ftable.FID, fftable.FID 
+from 
+(select ID, FID
+ from 
+ (( select ID, f1.ID2 as "FID"
+   from I827779.PEOPLE me, I827779.FRIENDS f1
+   where f1.ID1 = me.ID)
+ union
+ ( select ID, f2.ID1 as "FID"
+   from I827779.PEOPLE me, I827779.FRIENDS f2
+   where f2.ID2 = me.ID ))) ftable,   
+   ( select ID, FID
+	 from 
+	 (( select ID, f1.ID2 as "FID"
+	   from I827779.PEOPLE me, I827779.FRIENDS f1
+	   where f1.ID1 = me.ID)
+	 union
+	 ( select ID, f2.ID1 as "FID"
+	   from I827779.PEOPLE me, I827779.FRIENDS f2
+	   where f2.ID2 = me.ID ))) fftable
+where fftable.ID = ftable.FID;
+
+
+
+
+
+
+
+
+
+
+
+CREATE PROCEDURE I827779.find_friends AS SQL
+	v_me_id BIGINT;
+	v_me_id_dup BIGINT;
+	v_possible_fid BIGINT;
+	v_common_f_count BIGINT;
+	v_existing_f_count BIGINT;
+	CURSOR person_cursor FOR
+		SELECT DISTINCT ID 
+		FROM I827779.PERSON_FRIENDS;
+	
+	CURSOR friend_cursor(p_me_id BIGINT) FOR
+		SELECT me.ID, other.ID, COUNT(me.FID), (SELECT COUNT(0) FROM I827779.PERSON_FRIENDS myf WHERE myf.ID = me.ID) 
+		FROM I827779.PERSON_FRIENDS me, I827779.PERSON_FRIENDS other
+		WHERE me.FID = other.FID
+		and me.ID != other.ID
+		and me.ID = :p_me_id
+		and other.ID not in ( SELECT FID FROM I827779.PERSON_FRIENDS mine where mine.ID = me.ID)
+		GROUP BY me.ID, other.ID;
+BEGIN	
+	TRUNCATE TABLE I827779.MIGHT_BE_FRIENDS;	
+	
+	OPEN person_cursor;	
+	
+	IF person_cursor%ISOPEN
+	THEN
+		LOOP
+			FETCH person_cursor INTO v_me_id;
+			
+			IF person_cursor%NOTFOUND THEN
+                LEAVE;
+            END IF;
+            
+            IF person_cursor%FOUND THEN
+				OPEN friend_cursor(v_me_id);
+				
+				IF friend_cursor%ISOPEN
+				THEN
+					LOOP
+						FETCH friend_cursor INTO v_me_id_dup, v_possible_fid, v_common_f_count, v_existing_f_count;
+						IF friend_cursor%NOTFOUND THEN
+			                LEAVE;
+			            END IF;
+			            
+			            IF friend_cursor%FOUND THEN
+			            	INSERT INTO MIGHT_BE_FRIENDS 
+			            	VALUES (v_me_id_dup, v_possible_fid, v_existing_f_count, v_common_f_count);
+            			END IF;
+					END LOOP;
+					CLOSE friend_cursor;
+				END IF;     	            	    
+            END IF;
+		END LOOP;
+		CLOSE person_cursor;
+	END IF;
+END;
+
+
+
+
+
+////////////////////////////////////////////////////////
+
+DROP PROCEDURE init_proc;
+
+DROP PROCEDURE ins_msg_proc;
+
+DROP TABLE control_tab;
+
+DROP TABLE message_box;
+
+DROP TABLE param_tab;
+
+CREATE TABLE control_tab(
+    id          INT PRIMARY KEY,
+    name        VARCHAR(30),
+    payment     INT
+);
+
+CREATE TABLE message_box(
+    message     VARCHAR(200),
+    log_time    TIMESTAMP
+);
+
+INSERT INTO control_tab VALUES (11111, 'Thomas Lee', 275000);
+INSERT INTO control_tab VALUES (11112, 'James Bond', 398200);
+INSERT INTO control_tab VALUES (11113, 'Leonardo Dicaprio', 250000);
+
+CREATE PROCEDURE init_proc AS SQL
+BEGIN
+    DELETE FROM message_box;
+END;
+
+CREATE PROCEDURE ins_msg_proc (p_msg IN VARCHAR(200)) AS SQL
+BEGIN
+    INSERT INTO message_box VALUES (:p_msg, SYSTIMESTAMP);
+END;
+
+CREATE TABLE param_tab(
+    ttinyint    TINYINT,
+    tsmallint   SMALLINT,
+    tinteger    INTEGER,
+    tbigint     BIGINT,
+    tfloat      FLOAT,
+    tdouble     DOUBLE,
+    tdecimal    DECIMAL,
+    tchar       CHAR(200),
+    tvarchar    VARCHAR(200),
+    ttime       TIME,
+    tdate       DATE,
+    ttimestamp  TIMESTAMP
+);
+
+CALL ins_msg_proc('NewDB Studio');
