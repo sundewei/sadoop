@@ -18,8 +18,6 @@ public interface IFileSystem {
 
     public boolean deleteDirectory(String foldername) throws Exception;
 
-    public void copyFromLocalFile(String from, String to) throws Exception;
-
     public boolean exists(String filename) throws Exception;
 
     public void uploadFromLocalFile(String remoteFilename, String localFilename) throws Exception;

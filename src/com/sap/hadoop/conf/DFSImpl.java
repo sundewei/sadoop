@@ -1,5 +1,7 @@
 package com.sap.hadoop.conf;
 
+import com.sap.hadoop.etl.ContextFactory;
+import com.sap.hadoop.etl.IContext;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
@@ -81,10 +83,6 @@ public class DFSImpl implements IFileSystem {
         return fileSystem.delete(folder, true);
     }
 
-    public void copyFromLocalFile(final String from, final String to) throws Exception {
-        fileSystem.copyFromLocalFile(new Path(from), new Path(to));
-    }
-
     public boolean exists(String filename) throws IOException {
         return fileSystem.exists(new Path(filename));
     }
@@ -98,6 +96,7 @@ public class DFSImpl implements IFileSystem {
         List<IFile> files = new ArrayList<IFile>();
         if (fss != null) {
             for (FileStatus fs : fss) {
+
                 IFile file = new FileImpl(fs.getPath().getName(),
                         fs.getOwner(),
                         fs.getModificationTime(),
@@ -128,12 +127,12 @@ public class DFSImpl implements IFileSystem {
     public OutputStream getOutputStream(String remoteFile) throws IOException {
         return fileSystem.create(new Path(remoteFile));
     }
-    /*
+
     public static void main(String[] arg) throws Exception {
-        ConfigurationManager cm = new ConfigurationManager("I123456", "hadoopsap");
-        IContext context = ContextFactory.createContext(cm);
+        ConfigurationManager cm = new ConfigurationManager("I827779", "hadoopsap");
         DFSImpl dfs = new DFSImpl(cm.getConfiguration());
-        dfs.copyFromLocalFile("c:\\temp\\small_category.tsv", "/user/I123456/small_category.tsv");
+        dfs.fileSystem.copyToLocalFile(new Path("/user/I827779/testDir0/"), new Path("c:\\data\\testDir0\\"));
+
     }
-    */
+
 }

@@ -1,11 +1,6 @@
 package com.sap.hadoop.etl;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,7 +12,7 @@ import java.io.OutputStream;
 public class UploadFolderStep extends StepBase {
     private String remoteFolderName;
     private String localFolderName;
-
+    private boolean replace;
     public UploadFolderStep(String stepName) {
         super(stepName);
     }
@@ -28,6 +23,10 @@ public class UploadFolderStep extends StepBase {
 
     public void setLocalFolderName(String localFolderName) {
         this.localFolderName = localFolderName;
+    }
+
+    public void setReplace(boolean replace) {
+        this.replace = replace;
     }
 
     public void run() {
@@ -51,59 +50,25 @@ public class UploadFolderStep extends StepBase {
             localFolder = localFolder + File.separator;
         }
 
-        boolean remoteFolderReady = false;
-        remoteFolderReady = ifs.exists(remoteFolder);
-
-        if (!remoteFolderReady) {
-            remoteFolderReady = ifs.mkdirs(remoteFolder);
-        }
-
-        if (!remoteFolderReady) {
-            throw new IOException(remoteFolder + " can not be created.");
-        }
-
-        File localFolderFile = new File(localFolder);
-        File[] files = localFolderFile.listFiles();
-        LOG.info("In " + localFolder + ", found " + files.length + " to upload.");
-        for (File file : files) {
-            String remoteFilename = remoteFolder + file.getAbsolutePath().substring(file.getAbsolutePath().indexOf(localFolder) + localFolder.length()).replaceAll("\\\\", "/");
-            int lastSlashIdx = remoteFilename.lastIndexOf("/");
-            String nowFolder = remoteFilename.substring(0, lastSlashIdx);
-            if (file.isDirectory()) {
-                uploadFolder(remoteFilename, file.getAbsolutePath());
-            } else {
-                if (!ifs.exists(nowFolder)) {
-                    ifs.mkdirs(nowFolder);
+        if (ifs.exists(remoteFolder)) {
+            if (replace) {
+                LOG.info("replace = " + replace);
+                LOG.info("About to delete the existing " + remoteFolder);
+                if(!ifs.deleteDirectory(remoteFolder)) {
+                    throw new ETLStepContextException("Unable to delete '" + remoteFolder + "' when replace = true, can not proceed!");
                 }
-                LOG.info("Uploading " + file.getAbsolutePath() + " : " + file.length() + "bytes");
-                FileInputStream in = new FileInputStream(file);
-                OutputStream out = ifs.getOutputStream(remoteFilename);
-                IOUtils.copyLarge(in, out);
-                out.close();
-                in.close();
+            } else {
+                throw new ETLStepContextException(remoteFolder + " exists...but replace = " + false + ", can not proceed!");
             }
         }
 
-        /*
+        String remoteFolderParent = getParentFolder(remoteFolder);
+        ifs.uploadFromLocalFile(localFolder, remoteFolderParent);
+    }
 
-        IFile[] files = ifs.listFiles(remoteFolder);
-        for (IFile file: files) {
-            String localFilename = localFolder + File.separator + file.getFilename().substring(file.getFilename().indexOf(remoteFolder) + remoteFolder.length() + 1);
-            if (file.isDir()) {
-                downloadFolder(file.getFilename(), localFolder);
-            } else {
-                File localFile = new File(localFilename);
-                File nowFolder = new File(localFile.getParent());
-                if (!nowFolder.exists()) {
-                    nowFolder.mkdirs();
-                }
-                FileOutputStream out = new FileOutputStream(localFilename);
-                InputStream in = ifs.getInputStream(file.getFilename());
-                IOUtils.copyLarge(in, out);
-                out.close();
-                in.close();
-            }
-        }
-        */
+    private static String getParentFolder(String remoteFolder) {
+        StringBuilder sb = new StringBuilder(remoteFolder);
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.substring(0, sb.lastIndexOf("/") + 1);
     }
 }

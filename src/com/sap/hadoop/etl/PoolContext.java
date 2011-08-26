@@ -212,7 +212,7 @@ public class PoolContext implements IContext {
     private boolean canContinue() throws ETLStepContextException {
         for (StepBase sb : threadNameMap.values()) {
             if (sb.hasErrorOrException()) {
-                throw new ETLStepContextException("Found exception in '" + sb.getStepName() + "'");
+                throw new ETLStepContextException("Found exception in '" + sb.getStepName() + "' step!");
             }
         }
 

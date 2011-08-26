@@ -64,8 +64,6 @@ public class DownloadFolderStep extends StepBase {
         IFile[] files = ifs.listFiles(remoteFolder);
         for (IFile file : files) {
             String localFilename = localFolder + file.getFilename().substring(file.getFilename().indexOf(remoteFolder) + remoteFolder.length());
-            System.out.println("\n\n" + file.getFilename() + ", is Dir = " + file.isDir());
-            System.out.println(localFilename);
             if (file.isDir()) {
                 downloadFolder(file.getFilename(), localFolder);
             } else {
