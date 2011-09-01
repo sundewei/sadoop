@@ -119,6 +119,6 @@ public final class ConfigurationManager {
 
     public static void main(String[] args) throws Exception {
         ConfigurationManager cm = new ConfigurationManager(null, null);
-        System.out.println(cm.getNameNode());
+        //System.out.println(cm.getNameNode());
     }
 }

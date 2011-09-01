@@ -7,13 +7,17 @@ package com.sap.hadoop.conf;
  * Time: 12:48 PM
  * To change this template use File | Settings | File Templates.
  */
-public class FileImpl implements IFile {
+public class FileImpl implements IFile, Comparable<IFile> {
     private String name;
     private long modificationTime;
     private long len;
     private String owner;
     private String filename;
     private boolean dir;
+
+    public int compareTo(IFile ifile) {
+        return this.filename.compareTo(ifile.getFilename());
+    }
 
     public FileImpl(String name, String owner, long modificationTime, long len, String filename) {
         this.name = name;

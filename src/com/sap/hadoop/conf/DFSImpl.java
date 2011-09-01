@@ -18,6 +18,7 @@ import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -93,10 +94,10 @@ public class DFSImpl implements IFileSystem {
 
     public IFile[] listFiles(String folder) throws IOException {
         FileStatus[] fss = fileSystem.listStatus(new Path(folder));
-        List<IFile> files = new ArrayList<IFile>();
+        TreeSet<IFile> files = new TreeSet<IFile>();
+        TreeSet<IFile> folders = new TreeSet<IFile>();
         if (fss != null) {
             for (FileStatus fs : fss) {
-
                 IFile file = new FileImpl(fs.getPath().getName(),
                         fs.getOwner(),
                         fs.getModificationTime(),
@@ -104,8 +105,7 @@ public class DFSImpl implements IFileSystem {
                         fs.getPath().toUri().toASCIIString());
                 if (fs.isDir()) {
                     ((FileImpl) file).setDir(true);
-                    IFile[] subFiles = listFiles(fs.getPath().toUri().toASCIIString());
-                    files.addAll(Arrays.asList(subFiles));
+                    folders.add(file);
                 } else {
                     files.add(file);
                 }
@@ -113,7 +113,11 @@ public class DFSImpl implements IFileSystem {
         } else {
             throw new IOException("Folder '" + folder + "' not found on HDFS");
         }
-        return files.toArray(new IFile[files.size()]);
+
+        List<IFile> content = new ArrayList<IFile>();
+        content.addAll(folders);
+        content.addAll(files);
+        return content.toArray(new IFile[files.size()]);
     }
 
     public long getSize(String filename) throws IOException {

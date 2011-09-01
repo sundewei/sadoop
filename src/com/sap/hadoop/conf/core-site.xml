@@ -12,7 +12,36 @@
 
     <property>
         <name>hadoop.tmp.dir</name>
-        <value>/usr/local/hadoop/tmp</value>
+        <value>/tmp/hadoop-${user.name}${hue.suffix}</value>
         <description>A base for other temporary directories.</description>
+    </property>
+
+    <property> 
+        <name>hadoop.proxyuser.I827779.hosts</name> 
+        <value>*</value> 
+	<description>Dewei Sun</description>
+    </property> 
+    <property> 
+        <name>hadoop.proxyuser.I827779.groups</name> 
+        <value>*</value> 
+    </property> 
+
+    <property>
+        <name>hadoop.proxyuser.I802845.hosts</name>
+        <value>*</value>
+	<description>George</description>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.I802845.groups</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.I803567.hosts</name>
+        <value>*</value>
+        <description>Will</description>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.I803567.groups</name>
+        <value>*</value>
     </property>
 </configuration>
