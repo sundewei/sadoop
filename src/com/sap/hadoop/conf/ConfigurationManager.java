@@ -8,6 +8,12 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 
 /**
@@ -18,8 +24,6 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public final class ConfigurationManager {
-
-    private static String groupName = "lroot";
 
     private static String DRIVER_NAME = "org.apache.hadoop.hive.jdbc.HiveDriver";
 
@@ -38,13 +42,30 @@ public final class ConfigurationManager {
 
     public static final String SAP_XML = "sap.xml";
 
+    private static String CONF_URL;
+
     private Configuration configuration;
+
+    private static Configuration SAVED_CONFIGURATION;
+    private static long SAVED_TIME;
+
     private boolean isInited = false;
     private String username;
 
-    private static URL getResource(String name) throws IOException {
-        LOG.info("Adding resource as " + name);
-        return ConfigurationManager.class.getResource(name);
+    private URL getResource(String name) throws IOException {
+        if (name.equals(SAP_XML)) {
+            LOG.info("Adding resource as " + name);
+            return ConfigurationManager.class.getResource(name);
+        }
+
+        if (CONF_URL == null) {
+            CONF_URL =
+                    getConfiguration().get("com.sap.hadoop.conf.ConfigurationManager.confUrl",
+                                           "http://hadoop.pal.sap.corp:8080/shc/conf/");
+        }
+        String urlAddress = CONF_URL + name;
+        LOG.info("Adding resource as " + urlAddress);
+        return new URL(urlAddress);
     }
 
     public Connection getConnection() throws SQLException {
@@ -77,26 +98,47 @@ public final class ConfigurationManager {
     }
 
     private void init(String username, String password) {
-        configuration = new Configuration();
-        LOG.info("About to load config xml files...");
+        configuration = getSavedConfiguration();
         try {
-            configuration.addResource(getResource(CORE_SITE_DEFAULT_XML));
-            configuration.addResource(getResource(HDFS_SITE_DEFAULT_XML));
-            configuration.addResource(getResource(MAPRED_SITE_DEFAULT_XML));
-            configuration.addResource(getResource(CORE_SITE_XML));
-            configuration.addResource(getResource(HDFS_SITE_XML));
-            configuration.addResource(getResource(MAPRED_SITE_XML));
-            configuration.addResource(getResource(HBASE_SITE_XML));
-            configuration.addResource(getResource(SAP_XML));
-            configuration.set("hadoop.job.ugi", username + ", " + password);
+            if (configuration == null) {
+                LOG.info("About to load config xml files...");
+                configuration = new Configuration();
+                configuration.addResource(getResource(SAP_XML));
+                configuration.addResource(getResource(CORE_SITE_DEFAULT_XML));
+                configuration.addResource(getResource(HDFS_SITE_DEFAULT_XML));
+                configuration.addResource(getResource(MAPRED_SITE_DEFAULT_XML));
+                configuration.addResource(getResource(CORE_SITE_XML));
+                configuration.addResource(getResource(HDFS_SITE_XML));
+                configuration.addResource(getResource(MAPRED_SITE_XML));
+                configuration.addResource(getResource(HBASE_SITE_XML));
+                configuration.set("hadoop.job.ugi", username + ", " + password);
+                LOG.info("Done loading config xml files, saving it now...");
+                saveConfiguration(configuration);
+            } else {
+                LOG.info("Using saved Configuration loaded at " + new Timestamp(SAVED_TIME));
+            }
             isInited = true;
         } catch (IOException ioe) {
             LOG.error(ioe);
             ioe.printStackTrace();
             throw new RuntimeException(ioe);
         }
-        LOG.info("Done loading config xml files...");
+
         configuration.reloadConfiguration();
+    }
+
+    private synchronized static Configuration getSavedConfiguration() {
+        // One hour
+        if (SAVED_CONFIGURATION != null && System.currentTimeMillis() - SAVED_TIME < 3600000) {
+            return SAVED_CONFIGURATION;
+        } else {
+            return null;
+        }
+    }
+
+    private synchronized static void saveConfiguration(Configuration configuration) {
+        SAVED_CONFIGURATION = configuration;
+        SAVED_TIME = System.currentTimeMillis();
     }
 
     private String getNameNode() {
@@ -118,7 +160,11 @@ public final class ConfigurationManager {
     }
 
     public static void main(String[] args) throws Exception {
-        ConfigurationManager cm = new ConfigurationManager(null, null);
-        //System.out.println(cm.getNameNode());
+        ConfigurationManager cm1 = new ConfigurationManager(null, null);
+        ConfigurationManager cm2 = new ConfigurationManager(null, null);
+        ConfigurationManager cm3 = new ConfigurationManager(null, null);
+        Thread.sleep(5000);
+        ConfigurationManager cm4 = new ConfigurationManager(null, null);
+        ConfigurationManager cm5 = new ConfigurationManager(null, null);
     }
 }
