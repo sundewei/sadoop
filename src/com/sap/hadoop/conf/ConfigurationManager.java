@@ -61,7 +61,7 @@ public final class ConfigurationManager {
         if (CONF_URL == null) {
             CONF_URL =
                     getConfiguration().get("com.sap.hadoop.conf.ConfigurationManager.confUrl",
-                                           "http://hadoop.pal.sap.corp:8080/shc/conf/");
+                                           "http://llnpal55:80/shc/conf/");
         }
         String urlAddress = CONF_URL + name;
         LOG.info("Adding resource as " + urlAddress);

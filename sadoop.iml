@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/HadoopRunResult" />
+      <excludeFolder url="file://$MODULE_DIR$/META-INF" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/lucene_index" />
+      <excludeFolder url="file://$MODULE_DIR$/src_deweiHadoopCluster" />
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/test" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-logging-1.0.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/derby.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/datanucleus-rdbms-2.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/datanucleus-core-2.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-net-2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../commons-net-2.2/src/main/java" />
+          <root url="file://$MODULE_DIR$/../commons-net-2.2/src/main/java" />
+          <root url="file://$MODULE_DIR$/../commons-net-2.2/src/test/java" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hive-jdbc-0.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hive-exec-0.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/log4j-1.2.15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hive-common-0.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/libfb303.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/junit-4.9b2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jdo-api-3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hive-service-0.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/antlr-runtime-3.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hive-metastore-0.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-io-2.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../sadoopClient/lib/hadoop-core-0.20.2-cdh3u0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/failmon/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/index/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/index/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/gridmix/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/gridmix/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/thriftfs/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/hdfsproxy/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/thriftfs/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/hdfsproxy/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/mrunit/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/data_join/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/mrunit/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/data_join/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/fairscheduler/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/test/aop" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/data_join/src/examples" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/tools" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/capacity-scheduler/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/thriftfs/gen-java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/capacity-scheduler/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/vaidya/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/eclipse-plugin/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/ant" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/streaming/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/streaming/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/core" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/benchmarks/gridmix2/src/java" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/examples" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/contrib/fairscheduler/src/test" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/hdfs" />
+          <root url="file://$MODULE_DIR$/../hadoop-0.20.2-cdh3u0/src/mapred" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>
+

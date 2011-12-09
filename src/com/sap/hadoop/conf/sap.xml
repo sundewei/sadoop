@@ -13,7 +13,7 @@
     </property>
     <property>
         <name>com.sap.hadoop.conf.ConfigurationManager.confUrl</name>
-        <value>http://hadoop.pal.sap.corp:8080/shc/conf/</value>
+        <value>http://llnpal055:80/shc/conf/</value>
         <description>
             The URL to get all the Hadoop configuration files
         </description>
